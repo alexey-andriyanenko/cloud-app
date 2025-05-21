@@ -39,3 +39,106 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 2. Application should be able to send metrics to a monitoring system.
 3. Database should be running on a separate container.
 4. Storage should be mounted to the database container.
+
+### Utility commands
+
+Build container
+```bash
+docker build -t cloud-app .
+```
+Run container
+```bash
+docker run --rm cloud-app
+```
+Run container and forward ports
+```bash
+docker run --rm -p 8080:8080 tech-challenge-app
+```
+Tag container
+```bash
+docker tag tech-challenge-app {myusername}/tech-challenge-app:latest
+```
+Push container to docker hub
+```bash
+docker push {myusername}/tech-challenge-app:latest
+```
+Pull container from another machine
+```bash
+docker pull {myusername}/tech-challenge-app:latest
+```
+
+Kubernetes
+
+Apply config
+```bash
+kubectl apply -f deployment.yaml
+```
+Restart pod
+```bash
+kubectl rollout restart deployment tech-challenge-deployment
+```
+Get service details
+```bash
+kubectl get svc tech-challenge-service
+```
+Port forward
+```bash
+kubectl port-forward svc/tech-challenge-service 8080:8080
+```
+Describe pod
+```bash
+kubectl describe pod <pod-name>
+```
+Get deployments
+```bash
+kubectl get deployments
+```
+Pod logs
+```bash
+kubectl logs <pod-name>
+```
+
+Autoscale pod scaling
+```bash
+kubectl scale deployment tech-challenge-deployment --replicas=3
+```
+Horizontal pod autoscaler
+```bash
+kubectl autoscale deployment tech-challenge-deployment --cpu-percent=50 --min=1 --max=5
+```
+Monitor autoscaling
+```bash
+kubectl get pods -l app=tech-challenge
+```
+HPA status
+```bash
+kubectl get hpa
+```
+
+
+Stressing pod
+```bash
+kubectl exec -it <pod-name> -- sh
+```
+```bash
+apt update && apt install -y stress
+```
+Burn 1 cpu core for 1 minute
+```bash
+stress --cpu 1 --timeout 60
+```
+
+Rollback
+```bash
+kubectl rollout undo deployment tech-challenge-deployment
+```
+
+Check deployment history
+```bash
+kubectl rollout history deployment tech-challenge-deployment
+```
+
+Ngrok
+```bash
+ngrok config add-authtoken <your-ngrok-auth-token>
+```
