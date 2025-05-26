@@ -2,9 +2,11 @@ FROM openjdk:17-slim
 
 WORKDIR /app
 
-COPY ./build ./build
+COPY . .
 
-RUN ls -la ./build/libs
+RUN chmod +x ./gradlew
+
+RUN ./gradlew bootJar
 
 EXPOSE 8080
 

@@ -40,6 +40,80 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 3. Database should be running on a separate container.
 4. Storage should be mounted to the database container.
 
+
+#### Implementation
+1. This project should be made to run as a Docker image.
+
+```bash
+docker build -t cloud-app .
+```
+```bash
+docker run --rm -p 8080:8080 tech-challenge-app
+```
+2. Docker image should be published to a Docker registry.
+```bash
+docker tag tech-challenge-app {myusername}/tech-challenge-app:latest
+```
+```bash
+docker push {myusername}/tech-challenge-app:latest
+```
+3. Docker image should be deployed to a Kubernetes cluster.
+Create deployment.yaml file with kubernetes configuration
+```bash
+kubectl apply -f deployment.yaml
+```
+4. Kubernetes cluster should be running on a cloud provider.
+Using ngrok as sort of "cloud provider"
+
+5. Kubernetes cluster should be accessible from the internet.
+```bash
+ngrok http 30080
+```
+6. Kubernetes cluster should be able to scale the application.
+Manual Scaling (Horizontal Pod Autoscaling)
+```bash
+kubectl scale deployment tech-challenge-deployment --replicas=3
+```
+Automatic Scaling (HPA - Horizontal Pod Autoscaler)
+```bash
+kubectl autoscale deployment tech-challenge-deployment --cpu-percent=50 --min=1 --max=5
+```
+
+Adjust configuration with:
+resources:
+  requests:
+    cpu: "250m"
+  limits:
+    cpu: "500m"
+
+Test scaling:
+Get into the pod
+```bash
+kubectl exec -it <pod-name> -- sh
+```
+Inside of pod
+```bash
+apt update && apt install -y stress
+```
+Burn 1 cpu for 60 seconds
+```bash
+stress --cpu 1 --timeout 60
+```
+
+Check HPA:
+```bash
+kubectl get hpa
+```
+
+7. Kubernetes cluster should be able to update the application without downtime.
+Prevent traffic to pod while it's not fully ready
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 5
+
 ### Utility commands
 
 Build container
