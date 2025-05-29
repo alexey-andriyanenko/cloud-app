@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: tech-challenge
-        image: alexeiandriianenko/tech-challenge-app:latest
+        image: alexeiandriianenko/tech-challenge-app:88c2be4
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
