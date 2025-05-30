@@ -6,6 +6,8 @@ COPY . .
 
 RUN chmod +x ./gradlew
 
+RUN ls -la . && ./gradlew --version
+
 RUN ./gradlew bootJar
 
 EXPOSE 8080
