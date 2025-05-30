@@ -217,4 +217,4 @@ Ngrok
 ngrok config add-authtoken <your-ngrok-auth-token>
 ```
 
-kubectl set image deployment/tech-challenge-deployment tech-challenge=alexeiandriianenko/tech-challenge-app:<version>
+kubectl set image deployment/tech-challenge-deployment tech-challenge=<username>/tech-challenge-app:<version>
