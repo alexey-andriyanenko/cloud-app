@@ -8,7 +8,7 @@ COPY . .
 
 RUN chmod +x ./gradlew
 
-RUN ls -la . && ./gradlew --version
+RUN ls -la . && bash ./gradlew --version
 
 RUN bash ./gradlew bootJar
 
