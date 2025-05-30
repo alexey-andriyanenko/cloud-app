@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  IMAGE_NAME: ${{secrets.DOCKER_USERNAME}}/tech-challenge-app
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/tech-challenge-app
 
 jobs:
   build-deploy:
@@ -24,11 +24,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Grant execute permission to gradlew
-      run: chmod +x ./gradlew
-
     - name: Build jar
-      run: ./gradlew bootJar
+      run: .\gradlew.bat bootJar
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
@@ -38,9 +35,13 @@ jobs:
 
     - name: Set Docker image tag
       id: tag
-      run: echo "TAG=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
+      shell: pwsh
+      run: |
+        $shortSha = "${{ github.sha }}".Substring(0, 7)
+        echo "TAG=$shortSha" >> $env:GITHUB_ENV
 
     - name: Build and push Docker image
       run: |
-        docker build -t $IMAGE_NAME:$TAG .
-        docker push $IMAGE_NAME:$TAG
+        docker build -t $env:IMAGE_NAME:$env:TAG .
+        docker push $env:IMAGE_NAME:$env:TAG
+      shell: pwsh
