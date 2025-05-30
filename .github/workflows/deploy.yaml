@@ -35,7 +35,7 @@ jobs:
 
     - name: Set Docker image tag
       id: tag
-      shell: pwsh
+      shell: powershell
       run: |
         $shortSha = "${{ github.sha }}".Substring(0, 7)
         echo "TAG=$shortSha" >> $env:GITHUB_ENV
@@ -44,4 +44,4 @@ jobs:
       run: |
         docker build -t $env:IMAGE_NAME:$env:TAG .
         docker push $env:IMAGE_NAME:$env:TAG
-      shell: pwsh
+      shell: powershell
