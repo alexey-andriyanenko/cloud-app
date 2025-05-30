@@ -40,8 +40,11 @@ jobs:
         $shortSha = "${{ github.sha }}".Substring(0, 7)
         echo "TAG=$shortSha" >> $env:GITHUB_ENV
 
-    - name: Build and push Docker image
-      run: |
-        docker build -t $env:IMAGE_NAME:$env:TAG .
-        docker push $env:IMAGE_NAME:$env:TAG
-      shell: powershell
+    - name: Build Docker image
+      run: docker build -t tech-challenge-app:$TAG .
+
+    - name: Tag Docker image for Docker Hub
+      run: docker tag tech-challenge-app:$TAG ${{ secrets.DOCKER_USERNAME }}/tech-challenge-app:$TAG
+
+    - name: Push Docker image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/tech-challenge-app:$TAG
