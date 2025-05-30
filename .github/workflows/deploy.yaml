@@ -9,7 +9,7 @@ env:
 
 jobs:
   build-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64, ALEXEI]
 
     steps:
     - name: Checkout source code
