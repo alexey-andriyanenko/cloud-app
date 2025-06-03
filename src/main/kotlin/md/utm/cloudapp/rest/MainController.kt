@@ -8,6 +8,6 @@ class MainController {
 
     @GetMapping("/")
     fun main(): String {
-        return "local adf"
+        return "local adf1"
     }
 }
