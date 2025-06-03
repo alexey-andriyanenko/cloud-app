@@ -218,3 +218,5 @@ ngrok config add-authtoken <your-ngrok-auth-token>
 ```
 
 kubectl set image deployment/tech-challenge-deployment tech-challenge=<username>/tech-challenge-app:<version>
+
+Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
